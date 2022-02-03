@@ -1,0 +1,7 @@
+## Ignore File or Directory ##
+verilog_uart.cache/
+verilog_uart.hbs/
+verilog_uart.hw/
+verilog_uart.ip_user_files/
+verilog_uart.sim/
+verilog_uart.xpr
