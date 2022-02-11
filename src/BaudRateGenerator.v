@@ -9,8 +9,8 @@ module BaudRateGenerator #(
 		output reg txclk_en
     );
 
-    localparam  RX_ACC_MAX = SYSTEM_CLOCK / (UART_BAUDRATE * 16);
-    localparam  TX_ACC_MAX = SYSTEM_CLOCK / UART_BAUDRATE;
+    localparam  RX_ACC_MAX = (SYSTEM_CLOCK / (UART_BAUDRATE * 16))/2;
+    localparam  TX_ACC_MAX = (SYSTEM_CLOCK / UART_BAUDRATE)/2;
     localparam  RX_ACC_WIDTH = $clog2(RX_ACC_MAX);
     localparam  TX_ACC_WIDTH = $clog2(TX_ACC_MAX);
     

@@ -57,7 +57,6 @@ always @(posedge system_clk) begin
             TX_IDLE: begin
                 if (wr_en) begin
                     state <= TX_START;
-                    bitpos <= 3'h0;
                 end 
             end
             

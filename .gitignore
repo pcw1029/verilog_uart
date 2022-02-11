@@ -5,3 +5,5 @@ verilog_uart.hw/
 verilog_uart.ip_user_files/
 verilog_uart.sim/
 verilog_uart.xpr
+xgui/
+component.xml

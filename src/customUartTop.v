@@ -20,11 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module customUartTop # (
-        parameter SYSTEM_CLOCK = 100000000,
+        parameter SYSTEM_CLOCK = 99999001,
         parameter UART_BAUDRATE = 115200        
     )(
         input wire [7:0] din,
 	    input wire wr_en,
+	    (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME core_clk, ASSOCIATED_RESET core_rst, FREQ_HZ 99999001" *)
+	    (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 core_clk CLK" *)
 	    input wire system_clk,
 	    input wire reset,
 	    output wire tx,
@@ -36,11 +38,12 @@ module customUartTop # (
 	    ///////////DEBUG////////////
         output wire deb_rx,
         output wire deb_rx_complete,
-        output wire deb_rx_clk
+        output wire deb_rx_clk,
+        output wire debuging_high
 	);
 	
 	
-
+assign debuging_high = 1'b1;
 wire rxclk_en, txclk_en;
 
     
