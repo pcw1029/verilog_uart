@@ -36,10 +36,13 @@ module customUartTop # (
 	    output wire [7:0] dout,
 	    output wire [1:0] rx_error_bit,
 	    ///////////DEBUG////////////
+	    output wire wr_en_deb,
         output wire deb_rx,
         output wire deb_rx_complete,
         output wire deb_rx_clk,
-        output wire debuging_high
+        output wire deb_tx_clk,
+        output wire debuging_high,
+        output wire [1:0] deb_state
 	);
 	
 	
@@ -64,7 +67,9 @@ UartTransmitter uart_tx(
     .reset(reset),
     .clken(txclk_en),
     .tx(tx),
-    .tx_busy(tx_busy)
+    .tx_busy(tx_busy),
+    ///////////DEBUG////////////
+    .deb_tx_clk(deb_tx_clk)
 );
 
 
@@ -77,9 +82,11 @@ UartReceiver uart_rx(
     .data(dout),
     .rx_error_bit(rx_error_bit),
     ///////////DEBUG////////////
+    .wr_en_deb(wr_en_deb),
     .deb_rx(deb_rx),
     .deb_rx_complete(deb_rx_complete),
-    .deb_rx_clk(deb_rx_clk)
+    .deb_rx_clk(deb_rx_clk),
+    .deb_state(deb_state)
 );
 
 endmodule

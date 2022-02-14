@@ -26,7 +26,8 @@ module UartTransmitter (
         input wire reset,
         input wire clken,
         output reg tx,
-        output wire tx_busy
+        output wire tx_busy,
+        output wire deb_tx_clk
 );
 
 initial begin
@@ -48,7 +49,7 @@ reg state                       = TX_IDLE;
 reg [1:0] tx_state              = STATE_IDLE;
 
 assign tx_busy      = (tx_state != STATE_IDLE);
-
+assign deb_tx_clk       = clken;
 always @(posedge system_clk) begin
     if(reset == 1'b0) begin
         state <= TX_IDLE;
@@ -84,12 +85,12 @@ always @(posedge clken) begin
             end
                 
             STATE_SEND_DATA: begin
+                tx <= data[bitpos];
                 if (bitpos == 3'h7) begin
                     tx_state <= STATE_SEND_STOP_BIT;
                 end else begin
                     bitpos <= bitpos + 3'h1;
-                end
-                tx <= data[bitpos];
+                end                
             end
             
             STATE_SEND_STOP_BIT: begin

@@ -1,6 +1,7 @@
-`timescale 1 ns / 1 ps
+`timescale 1ns / 1ps
+
 module BaudRateGenerator #(
-        parameter SYSTEM_CLOCK = 100000000,
+        parameter SYSTEM_CLOCK = 99999001,
         parameter UART_BAUDRATE = 115200
     )(
         input wire system_clk,

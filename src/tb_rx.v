@@ -37,7 +37,8 @@ module tb_rx( );
     wire deb_rx_complete;
     wire deb_rx_clk;
     wire [1:0] rx_error_bit;
-    
+    wire debuging_high;
+        
     reg [3:0] iCount;
     reg [7:0] rxData;
     
@@ -46,7 +47,7 @@ module tb_rx( );
         #5 system_clk = ~system_clk;
     
     always
-        #8680 uart_clk = ~uart_clk;
+        #4340 uart_clk = ~uart_clk;
         
     initial begin
         $display("initialize value [%0d]", $time);
@@ -134,15 +135,9 @@ module tb_rx( );
         $display("Finish! [%d]", $time);
         $finish;
     end
-    
-    
-    
-    
-    
-
 
     customUartTop #(
-        .SYSTEM_CLOCK(100000000),
+        .SYSTEM_CLOCK(99999001),
         .UART_BAUDRATE(115200)  
     ) tb_rx(
         .din(din),
@@ -157,7 +152,8 @@ module tb_rx( );
 	    .rx_error_bit(rx_error_bit),
 	    .deb_rx(deb_rx),
         .deb_rx_complete(deb_rx_complete),
-        .deb_rx_clk(deb_rx_clk)
+        .deb_rx_clk(deb_rx_clk),
+        .debuging_high(debuging_high)
     );
 
 	

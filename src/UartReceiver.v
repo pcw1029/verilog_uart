@@ -30,9 +30,11 @@ module UartReceiver(
         output  reg [7:0] data,
         output  reg [1:0] rx_error_bit,
         ///////////DEBUG////////////
+        output wire wr_en_deb,
         output  wire deb_rx,
         output  wire deb_rx_complete,
-        output  wire deb_rx_clk
+        output  wire deb_rx_clk,
+        output wire [1:0] deb_state
 );
         
 localparam  RX_STATE_START          = 2'h0,
@@ -120,7 +122,7 @@ always @(posedge uart_clk )  begin
             
             RX_STATE_DATA: begin
                 sample <= sample + 1'b1;
-                if (bitpos == 4'h8 && sample == 5'hA) begin
+                if (bitpos == 4'h8 && sample == 5'h8) begin
                     state <= RX_STATE_STOP;
                     sample <= 0;
                     if(rx == 1'b1) begin
@@ -130,15 +132,14 @@ always @(posedge uart_clk )  begin
                     end                    
                 end else if(sample == 5'hF) begin
                     sample <= 0;
-                end
-                if (sample == 5'h8) begin
+                end else if (sample == 5'h8) begin
                     scratch[bitpos[2:0]] <= rx;
                     bitpos <= bitpos + 1'b1;
                 end
             end
             
             RX_STATE_STOP: begin     
-                if (sample == 3'h5 ) begin
+                if (sample == 3'h5) begin
                     state <= RX_CLOCK_OFF;	
                     reg_rx_complete <= 1'b0;
                     sample <= 0;
@@ -160,8 +161,18 @@ always @(posedge uart_clk )  begin
     end
 end
 
+reg reg_wr_en_deb = 1'b0;
+always @(posedge uart_clk) begin
+    if(reg_rx_complete == 1'b1) begin
+        reg_wr_en_deb <= 1'b1;
+    end else begin
+        reg_wr_en_deb <= 1'b0;
+    end
+end
+
+assign wr_en_deb    = reg_wr_en_deb;
 assign deb_rx           = rx;
 assign deb_rx_complete  = reg_rx_complete;
 assign deb_rx_clk       = uart_clk;
-
+assign deb_state        = state;
 endmodule
